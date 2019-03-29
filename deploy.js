@@ -11,13 +11,15 @@ function run_cmd(cmd, args, callback) {
   child.stdout.on('data', function(buffer) { resp += buffer.toString(); });
   child.stdout.on('end', function() { callback (resp) });
 }
- 
+
+console.log('enter....');
 
 
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
     res.statusCode = 404
     res.end('no such location')
+    console.log('web visited');
   })
 }).listen(7777)
  
