@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>TEST CELL</title><meta name="keywords" content="手机新浪网,新浪首页,新闻资讯,新浪新闻,新浪无线"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"><meta http-equiv="Cache-Control" content="no-cache, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta name="format-detection" content="telephone=no"><meta name="referrer" content="always"><meta name="robots" content="index, follow"><meta name="googlebot" content="index, follow"><meta name="author" content="sina_mobile"><script type="text/javascript">! function(w, d, m) {
+				function r() {
+					var t = 100,
+						o = 750,
+						e = d.documentElement.clientWidth || w.innerWidth,
+						n = m.max(m.min(e, 480), 300),
+						h = 50;
+					h = m.floor(n / o * t * 1);
+					d.querySelector("html").style.fontSize = h + "px";
+					
+				};
+				r();
+				w.addEventListener("resize",function() {
+					r()
+				});
+			}(window, document, Math);
+			
+			var playerInfo = {
+				uid: '',
+				num: 0,
+				nickname: 'love',
+				head_img: '',
+				gname: 'redcard',
+			};
+			
+			var hitNameList = [{
+					isJudge: true,
+					name: "温家宝"
+				},
+				{
+					isJudge: false,
+					name: "周恩来"
+				},
+				{
+					isJudge: true,
+					name: "裁判乙"
+				},
+				{
+					isJudge: true,
+					name: "习近平"
+				},
+				{
+					isJudge: false,
+					name: "安德森"
+				},
+				{
+					isJudge: true,
+					name: "裁判丙"
+				}
+			];
+			var PATH = './static/';
+			var rootDomain = "http://g.dev.sina.cn/aj/yc/redcard/score?vt=4";</script><link rel="stylesheet" type="text/css" href="http://mjs.sinaimg.cn/wap/module/share_2.0/201612281441/css/addShare.min.css"><link href="./static/css/app.css" rel="stylesheet"></head><body><span class="j_shareBtn none"></span><div id="app"></div><script src="//mjs.sinaimg.cn/wap/module/base/js/zepto.min.js"></script><script src="//mjs.sinaimg.cn/wap/public/suda/201601071000/suda_log.min.js"></script><script src="//mjs.sinaimg.cn/wap/public/suda/201601071000/suda_map.min.js"></script><script src="//mjs.sinaimg.cn/wap/module/login/201707060712/outlogin_layer_mobile.min.js"></script><script src="//mjs.sinaimg.cn/wap/module/share_2.0/201612281441/js/addShare.min.js"></script><script src="//mjs.sinaimg.cn/wap/online/dpool/client/goodMorning/resource/appBridge_new.js"></script><script src="//mjs.sinaimg.cn/wap/online/dpool/client/goodMorning/resource/appH5Common.min.js"></script><script src="//mjs.sinaimg.cn/wap/online/dpool/game/worldCup/common/201806021655/shareWx.min.js"></script><script src="//mjs.sinaimg.cn/wap/online/dpool/game/worldCup/common/201806021655/report.min.js"></script><script type="text/javascript">//统计pv，uv
+			var sudaMapConfig = {
+				uId: '',
+				pageId: '2949'
+			};
+			suda_init(sudaMapConfig.pageId, 100);
+
+			var _shareInfo = {
+				title: "亮出正义红牌", // 分享标题
+				desc: "亮出你的正义红牌，惩罚不公之人。", // 分享描述
+				imgURL: "http://wap_front.dev.sina.cn/xiaofei/h5games/dev/redcard/img/wxshare_icon.png",
+				shareLink: "http://g.dev.sina.cn/yc/redcard/index?vt=4",
+			}
+
+			//分享配置
+			var _sConfig = {
+				title: _shareInfo.title,
+				content: _shareInfo.desc,
+				imgSrc: _shareInfo.imgURL,
+				shareURL: _shareInfo.shareLink
+			};
+			window.sinaCnShare.main.resetShareConfig(_sConfig);
+
+			var _wxShareConfig = {
+				title: _shareInfo.title, // 分享标题
+				desc: _shareInfo.desc, // 分享描述
+				link: _shareInfo.shareLink, // 分享链接
+				imgUrl: _shareInfo.imgURL, // 分享图标
+				type: '', // 分享类型,music、video或link，不填默认为link
+				dataUrl: '' // 如果type是music或video，则要提供数据链接，默认为空
+			}
+			window.shareInit();</script><script type="text/javascript" src="./static/js/manifest.js"></script><script type="text/javascript" src="./static/js/vendor.js"></script><script type="text/javascript" src="./static/js/app.js"></script></body></html>
