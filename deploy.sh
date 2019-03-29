@@ -1,6 +1,6 @@
 #!/bin/bash
  
-WEB_PATH='/autoFetch'
+WEB_PATH='/autoFetch/website'
 WEB_USER='lovelucydev'
 WEB_USERGROUP='lovelucydev'
  
