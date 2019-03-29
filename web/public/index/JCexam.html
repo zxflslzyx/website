@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var container, camera, scene, renderer;
+			var obj1, obj2, obj3, obj4, obj5, g1, g2;
+			window.addEventListener("DOMContentLoaded", function() {
+				init();
+				animate();
+			}, false);
+
+			function init() {
+				container = document.createElement('div');
+				document.body.appendChild(container);
+				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+				camera.position.set(0, 0, 400);
+
+				scene = new THREE.Scene();
+				renderer = new THREE.WebGLRenderer({
+					antialias: true
+				});
+				renderer.setPixelRatio(window.devicePixelRatio);
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				container.appendChild(renderer.domElement);
+
+				window.addEventListener('resize', onWindowResize, false);
+				obj5 = new THREE.Mesh(new THREE.CylinderGeometry(0, 20, 50, 18, 3), new THREE.MeshBasicMaterial({
+					color: 0xffff00
+				}));
+				scene.add(obj5);
+				obj5.geometry.translate(0, 65, 0);
+
+				obj4 = new THREE.Mesh(new THREE.CylinderGeometry(20, 0, 50, 18, 3), new THREE.MeshBasicMaterial({
+					color: 0xffff00
+				}));
+				scene.add(obj4);
+				obj4.geometry.translate(0, -65, 0);
+
+				obj1 = new THREE.Mesh(new THREE.CylinderGeometry(20, 20, 80, 18, 3), new THREE.MeshBasicMaterial({
+					color: 0xff0000
+				}));
+				scene.add(obj1);
+				obj1.geometry.translate(0, 0, 0);
+
+				obj2 = new THREE.Mesh(new THREE.CubeGeometry(30, 30, 30), new THREE.MeshBasicMaterial({
+					color: 0xffff00
+				}));
+				scene.add(obj2);
+				obj2.geometry.translate(-135, 0, 0);
+//				obj2.position.x = 1;
+
+				obj3 = new THREE.Mesh(new THREE.CubeGeometry(30, 30, 30), new THREE.MeshBasicMaterial({
+					color: 0xff00ff
+				}));
+//				scene.add(obj3);
+				obj3.position.set(-90, 0, 0);
+
+				g1 = new THREE.Group();
+				g2 = new THREE.Group();
+
+//				g2.add(obj2);
+				g2.add(obj3);
+				g2.add(obj4);
+				g2.add(obj5);
+
+				g1.add(obj1);
+				g1.add(g2);
+				scene.add(g1);
+
+			}
+
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize(window.innerWidth, window.innerHeight);
+
+			}
+
+			function animate() {
+				requestAnimationFrame(animate);
+				render();
+			}
+
+			function render() {
+				renderer.render(scene, camera);
+//				g1.rotation.x += .01;
+//				g2.rotation.y += .05;
+				obj3.rotation.y += .1;
+				obj2.rotation.y += -0.01;
+			}
+		</script>
+	</body>
+
+</html>

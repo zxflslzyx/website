@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>几何\阴影\调试器\雾化</title>
+		<script src="js/three.min.js"></script>
+		<!--交互插件-->
+		<script src="js/TrackballControls.js"></script>
+		<!--调试器-->
+		<script src="js/dat.gui.min.js"></script>
+		<style>
+			html,body{
+				margin: 0;
+				height: 100%;
+			}
+			canvas{display: block;}
+		</style>
+	</head>
+	<body onload="draw()">
+	</body>
+	<script>
+//		渲染器
+		var renderer;
+		width = window.innerWidth;
+		height = window.innerHeight;
+		function initRenderer(){
+			renderer = new THREE.WebGLRenderer({antialias:true })
+			renderer.setSize(width,height);
+			renderer.setClearColor(0x000000,1.0);
+			renderer.setPixelRatio(window.devicePixelRatio);//设置像素比
+//			告诉渲染器需要阴影效果
+			renderer.shadowMap.enabled = true;
+			renderer.shadowMap.type = THREE.PCFSoftShadowMap;//默认的是THREE.PCFShadowMap，不太清晰
+			document.body.appendChild(renderer.domElement);
+		}
+//		相机
+		var camera;
+		function initCamera(){
+			camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,1,2000);
+			camera.position.y = 400;
+			camera.up.z = 1;
+			camera.lookAt({
+				x:0 ,y:0 ,z:0
+			})
+		}
+//		场景
+		var scene;
+		function initScene(){
+			scene = new THREE.Scene();
+//			雾化效果:根据距离自动（颜色、浓度）、设置固定（颜色，雾化开始距离相机的位置、全雾化距离相机的位置）
+//			scene.fog = new THREE.FogExp2(0xffffff,0.0005);
+			scene.fog = new THREE.Fog(0xffffff,1000,1300);
+		}
+//		初始化dat.GUI简化实验流程
+		var gui;
+		function initGui(){
+			gui = {
+				lightX: -200,		//灯光X轴的位置
+				lightY: 0,	//灯光Y轴的位置
+				lightZ: 400		//灯光Z轴的位置
+			};
+			var datGui = new dat.GUI();
+			datGui.add(gui,"lightX",-500,200);
+			datGui.add(gui,"lightY",-100,100);
+			datGui.add(gui,"lightZ",-100,500);
+		}
+		//		光源
+		var light;
+		function initLight(){
+			scene.add(new THREE.AmbientLight(0x404040));//环境光
+			light = new THREE.PointLight(0xffffff);//点光源;DirectionalLight平衡光
+			light.position.set(-200,0,400);
+		//		告诉平行光开启投影
+			light.castShadow = true;
+			scene.add(light);
+		}
+		//		模型
+		function initModel(){
+			var map = new THREE.TextureLoader().load("./img/cartoon.png");//图片文理
+			map.wrapS = map.wraT = THREE.RepeatWrapping;//纹理的水平垂直重复到无穷大
+			map.anisotropy = 16;//纹理的各向异性
+		//			定义兰伯特网孔材质
+			var material = new THREE.MeshLambertMaterial({map:map,side:THREE.DoubleSide});
+		//			球形网格
+			object = new THREE.Mesh(new THREE.SphereGeometry(75,20,20),material);
+			object.position.set(-400,0,200);
+		//			告诉球要投影
+			object.castShadow = true;
+			scene.add(object);
+		//			十二面体(图形大小半径,大于0将不是12面体,越大越圆滑)
+			object = new THREE.Mesh(new THREE.IcosahedronGeometry(75,0),material);
+			object.position.set(-200,0,200);
+			object.castShadow = true;
+			scene.add(object);
+//			八面体（同上）
+			object = new THREE.Mesh(new THREE.OctahedronGeometry(75,0),material);
+			object.position.set(0,0,200);
+			object.castShadow = true;
+			scene.add(object);
+//			THREE.TetrahedronGeometry( 75, 0 )		四面体（图形大小半径，大于零将不是四面体，越大越圆滑）
+//			THREE.PlaneGeometry( 100, 100, 1, 1 )		长方体（x轴宽度，y轴高度，x方向分段数，y方向分段数）
+//			THREE.BoxGeometry( 100, 100, 100, 1, 1, 1 )		立方体（x轴宽度，y轴高度，z轴深度，沿宽面分段数，沿高度面分段数，沿深度面分段数）
+//			THREE.CircleGeometry( 50, 20, 0, Math.PI * 2 )		圆形平面（半径，顶点密度，绘制起点弧度，绘制弧度）
+//			THREE.RingGeometry( 10, 50, 10, 5, 0, Math.PI * 2 )		空心圆形平面（内圆半径，外圆半径，分割面越大越圆滑，垂直外边分割面，开始绘制弧度，绘制弧度）
+//			THREE.CylinderGeometry( 25, 75, 100, 40, 5 )		圆柱体 （头部圆的半径，底部圆半径，高度，上下圆顶点个数，上下面切割线条数，上下面是否显示，开始弧度，绘制弧度）	
+//			THREE.TorusGeometry( 50, 20, 20, 20 )		救生圈 （救生圈半径，管道直径，基于管道横切顶点数，救生圈横切顶点个数）
+//			THREE.TorusKnotGeometry( 50, 10, 50, 20 )		环面扭结模型 （图形半径，管道直径，基于管道横切定点数，根据图形半径横切顶点数，绕旋转对称轴的圈数，绕环面的圆的圈数）
+
+//			轴辅助	(每个轴的长度) 
+			object = new THREE.AxesHelper(50);
+			object.position.set(0,0,0);
+			scene.add(object);
+//			箭头辅助    (箭头头的方向必须是vecteor3,箭头起点必须是vector3,箭头长度,颜色)
+			object = new THREE.ArrowHelper(new THREE.Vector3(0,1,0), new THREE.Vector3(0,0,0), 50, 0xffff33);
+			object.position.set(200,0,0);
+			scene.add(object);
+//			光线辅助线
+			object = new THREE.CameraHelper(light.shadow.camera);
+			scene.add(object);
+//			底部平面
+			var PlaneGeometry = new THREE.PlaneGeometry(1000,500);
+			var PlaneMaterial = new THREE.MeshStandardMaterial({color:0xaaaaaa});
+			var plane = new THREE.Mesh(PlaneGeometry,PlaneMaterial);
+//			plane.rotation.x = -0.5*Math.PI;
+			plane.position.x = -200;
+//			告诉底面接收投影
+			plane.receiveShadow = true;
+			scene.add(plane);
+		}
+		//		用户交互插件,鼠标左键按住旋转,右键平移,滚轮缩放
+		var controls;
+		function initControls(){
+			controls = new THREE.TrackballControls(camera);
+			controls.rotateSpeed = 5;			//旋转速度
+			controls.zoomSpeed = 3;				//变焦速度
+			controls.panSpeed = 0.8;			//平移速度
+			controls.noZoom = false;			//是否不变焦
+			controls.noPan = false;				//是否不平移
+			controls.staticMoving = false;		//是否开启移动惯性
+			controls.dynamicDampingFactor = 0.3;//动态阻尼系数（灵敏度）
+//			controls.keys = [65,83,68];			未知，暂时保留
+			controls.addEventListener('change',render);
+		}
+		function animate(){
+			controls.update();
+			requestAnimationFrame(animate);
+//			更新相关位置
+			light.position.x = gui.lightX;
+			light.position.y = gui.lightY;
+			light.position.z = gui.lightZ;
+			render();
+		}
+		function render(){
+//			自动旋转
+//			var timer = Date.now()*0.0001;
+//			
+//			camera.position.x = Math.cos(timer)*800;
+//			camera.position.y = Math.sin(timer)*800;
+//			
+//			camera.lookAt(scene.position);
+//			
+//			for(var i=0,l = scene.children.length; i<l; i++){
+//				var object = scene.children[i];
+//				
+//				object.rotation.x = timer*5;
+//				object.rotation.y = timer*2.5;
+//				
+//			}
+			renderer.render(scene,camera);
+		}
+//		窗口变动触发的函数
+		function onWindowResize(){
+			camera.aspect = window.innerWidth/window.innerHeight;
+			camera.updateProjectionMatrix();
+			
+			controls.handleResize();
+			renderer.setSize(window.innerWidth,window.innerHeight);
+		}
+//		绘制
+		function draw(){
+			initGui();
+			initRenderer();
+			initCamera();
+			initScene();
+			initLight();
+			initModel();
+			initControls();
+			animate();
+			
+			window.addEventListener('resize',onWindowResize,false);
+		}
+	</script>
+</html>
