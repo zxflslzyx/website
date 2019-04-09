@@ -3,8 +3,9 @@
 WEB_PATH='/autoFetch/website'
 WEB_USER='lovelucydev'
 WEB_USERGROUP='lovelucydev'
+
+echo "----------------current dir----------------------"
  
-echo "Start deployment"
 cd $WEB_PATH
 echo "----------------current dir----------------------"
 ls
