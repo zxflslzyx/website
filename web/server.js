@@ -4,4 +4,5 @@ var path = require('path');
 
 app.use(express.static(path.join(__dirname, "./public"))).listen(80);
 
+
 console.log('listen ok');
