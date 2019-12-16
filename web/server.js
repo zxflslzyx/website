@@ -10,8 +10,6 @@ app.get('/404', function (req, res) {
 
 
 console.log('listen ok test test');
-console.log('listen ok test test');
-console.log('listen ok test test');
 
 
 
