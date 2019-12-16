@@ -4,6 +4,9 @@
     "github-webhook-handler": "^0.7.1"
   },
   "scripts": {
-    "start": "node ./web/server.js"
+    "start": "nodemon ./web/server.js"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.2"
   }
 }
