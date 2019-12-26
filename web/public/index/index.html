@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
-</head>
-<body>
-	<h1>ljljlj</h1>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script>
+      let identifyArr = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+      let idMap = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];
+
+      window.checkId = function(idStr) {
+        let idArr = idStr.split("").map(item => +item);
+        let sum = 0;
+        for (let i = 0; i < 17; i++) {
+          sum += identifyArr[i] * idArr[i];
+        }
+
+        let modNum = sum % 11;
+        return idMap[modNum];
+      };
+    </script>
+  </head>
+  <body>
+    <h1>ljljlj</h1>
+  </body>
 </html>
