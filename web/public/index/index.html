@@ -5,11 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <script>
-      let identifyArr = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
-      let idMap = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];
+    <style>
+      html,
+      body {
+        width: 100%;
+      }
+      input {
+        display: inline-block;
+        margin: 1rem;
+        height: 2rem;
+        padding: 0.2rem;
+        border: 1px solid blue;
+        border-radius: 0.4rem;
+      }
+      .confirm {
+        display: inline-block;
+        margin: 0 auto;
+        padding: 0.1rem 0.2rem;
+        border-radius: 0.1rem;
+        background: blue;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" id="input" />
+    <aside class="confirm">确认</aside>
+  </body>
 
-      window.checkId = function(idStr) {
+  <script>
+    let identifyArr = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+    let idMap = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];
+
+    window.checkId = function(idStr) {
+      try {
         let idArr = idStr.split("").map(item => +item);
         let sum = 0;
         for (let i = 0; i < 17; i++) {
@@ -17,11 +46,18 @@
         }
 
         let modNum = sum % 11;
+        !modNum && alert("请输入正确身份证信息");
         return idMap[modNum];
-      };
-    </script>
-  </head>
-  <body>
-    <h1>my web</h1>
-  </body>
+      } catch (error) {
+        console.log("请输入正确身份证信息");
+      }
+    };
+
+    document.getElementsByClassName("confirm")[0].onclick = function() {
+      var str = document.getElementById("input").value;
+
+      let result = checkId(str);
+      result && alert(result);
+    };
+  </script>
 </html>
