@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "ejs": "^3.0.1",
     "express": "^4.16.4",
     "github-webhook-handler": "^0.7.1"
   },
