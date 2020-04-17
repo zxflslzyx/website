@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>抓萌大作战</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="keywords" content="抓萌大作战_新浪移动_手机新浪网">
+  <meta name="description" content="抓萌大作战，新浪移动，小游戏，新浪">
+  <script src="http://mjs.sinaimg.cn/wap/public/suda/201601071000/suda_log.min.js"></script>
+  <script src="http://mjs.sinaimg.cn/wap/public/suda/201601071000/suda_map.min.js"></script>
+  <script>  
+    function rem() {
+      var t = 100,
+        o = 750,
+        e = document.documentElement.clientWidth || window.innerWidth,
+        n = Math.max(Math.min(e, 480), 320),
+        h = 50;
+      320 >= n && (h = Math.floor(n / o * t * .99)), n > 320 && 362 >= n && (h = Math.floor(n / o * t * 1)), n > 362 && 375 >= n && (h = Math.floor(n / o * t * 1)), n > 375 && (h = Math.floor(n / o * t * .97)), document.querySelector("html").style.fontSize = h + "px"
+    };
+    rem();
+    window.onresize = function () {
+      rem();
+    }
+    var PATH = "http://mjs.sinaimg.cn//wap/project/weibo_night_2018/1.0.14/index";
+    // var PATH = "http://wap_front.dev.sina.cn/xiaofei/aWawaji"
+
+    var myUser = {
+      uid: 'testid222',
+      headimg: PATH + '/img/defaultHeadImg.gif',
+      nickname: '蓝色海洋'
+    }
+    var _wxShareConfig = {
+
+      title: "佛系抓蛙——这是一种怎样的孤独？",// 分享标题
+
+      desc: '你的呱儿砸都在我们这儿呢，快来救它回家！', // 分享描述
+
+      link: 'http://wap_front.dev.sina.cn/xiaofei/aWawaji/', // 分享链接
+
+      imgUrl: PATH + '/img/wxshare3.jpg', // 分享图标
+
+      type: '', // 分享类型,music、video或link，不填默认为link
+
+      dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+
+    }
+  </script>
+  <link rel="stylesheet" href="./css/style.min.css">
+</head>
+
+<body>
+  <div class="oriention hide">
+    <div class="oriention_con">
+      <div class="oriention_logo"></div>
+      <div class="oriention_tip">为了更好的体验，请将手机/平板竖过来</div>
+    </div>
+  </div>
+  <div id="app">
+    <!-- 开始界面 -->
+    <div class="entryBox" v-show="isEntryShow">
+      <div class="entryView">
+        <div class="innerbox">
+          <div class="babies"></div>
+          <div class="colorBar"></div>
+          <div class="body">
+            <div class="startBtn" @click="startGame"></div>
+            <div class="homeRank" data-sudaclick="zww_rank" @click="seeRand"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 开始界面end -->
+
+    <!-- 下一关start -->
+    <div class="nextlevel" v-show="isNextLevelShow" style="display:none">
+      <div class="entryView">
+        <div class="innerbox">
+          <div class="babies"></div>
+          <div class="colorBar"></div>
+          <div class="body">
+            <h1>即将进入下一关...</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 下一关end -->
+
+
+    <!-- 前景 start -->
+    <div class="fg">
+      <div id="musicBtn" class="musicRotate"></div>
+      <audio id="music" src="./mp3/bgmusic.mp3" loop></audio>
+      <div class="title"></div>
+      <div class="remindBox">
+        <div class="remind">
+          <div class="textBox">
+            <div id="textInfo">
+              <div class="catched"></div>
+              <div class="normal"></div>
+              <div class="miss"></div>
+            </div>
+          </div>
+        </div>
+        <div class="time" v-text="timeValue"></div>
+        <div class="timeChange" :class="{addTime:isShowAddTime}">+9</div>
+        <div class="timeChange " :class="{desTime:isShowDesTime}">-3</div>
+      </div>
+      <div id="startBtn" class="start1">
+      </div>
+      <div class="basketBox">
+        <div class="score" v-if="scoreValue > 0" v-text="'x' + scoreValue"></div>
+        <div class="cap"></div>
+      </div>
+    </div>
+    <!-- 前景 end -->
+
+    <!-- 背景 start -->
+    <div class="bg">
+      <div class="innerBox">
+        <!-- <img src="./img/snow.gif" alt="" width="100%" height="100%" style="opacity:.2;position:absolute;left:0;top:0;"> -->
+      </div>
+    </div>
+    <!-- 背景end -->
+
+
+    <!-- canvas start -->
+    <div class="box">
+      <canvas id="canvas"></canvas>
+    </div>
+    <!-- canvas End -->
+
+
+    <!-- 浮层start -->
+    <div id="dialog" class="dialog" v-show="isDialogShow" style="display:none">
+      <div class="flower flower1"></div>
+      <div class="flower flower2"></div>
+      <div class="flower flower3"></div>
+      <div class="container">
+        <div class="floatBox">
+          <div class="babies"></div>
+          <div class="body">
+            <p class="info">你一共抓到了娃娃</p>
+            <p class="count">
+              <span id="count">0</span>个</p>
+
+            <div class="seeRank" data-sudaclick="zww_rank" @click="seeRand"></div>
+            <div class="btn restart" data-sudaclick="zww_restart"></div>
+            <div class="btn share" data-sudaclick="zww_share" @click="isSharePage = true"></div>
+          </div>
+          <div class="gongxi">
+            <div class="btn closeBtn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 浮层end -->
+
+    <!-- 分享页面 -->
+    <div class="shareBox" v-show="isSharePage" style="display:none" @click="isSharePage=false">
+      <div class="shareInner"> </div>
+    </div>
+
+    <!-- 排行榜start -->
+    <div class="rankBox" v-show="isBoardShow" style="display:none">
+      <div class="backBtn" @click="isBoardShow=false"></div>
+      <p class="rankTitle">排行榜</p>
+      <img :src="myUser.headimg" class="headImg">
+      <p class="playerName" v-text="myUser.nickname">歪脖子老刘</p>
+      <div class="playerInfosBox">
+        <div class="left">
+          <p class="item">排名</p>
+          <p class="count">
+            <span v-if="rankName" v-text="rankName+'名'"></span>
+            <span v-else v-text="'无'"></span>
+          </p>
+        </div>
+
+        <div class="right">
+          <p class="item">成绩</p>
+          <p class="count">
+            <span v-text="maxScore"></span>个</p>
+        </div>
+      </div>
+
+      <div class="scrollBox">
+        <div class="scrollInner">
+          <div class="item" v-for="(item, index) in myBoardInfo ">
+            <div class="topMain">
+              <div v-if="item.rankName > 3" class="rank" v-text="item.rankName"></div>
+              <div v-if="item.rankName === 1" class="first"></div>
+              <div v-if="item.rankName=== 2" class="second"></div>
+              <div v-if="item.rankName=== 3" class="third"></div>
+              <img :src="item.head_img" class="playersImg">
+              <p class="playersName" v-text="item.nick_name"></p>
+              <p class="score" :class="{red: item.rankName <= 3}">
+                <span v-text="item.rank_num"></span>个
+              </p>
+            </div>
+            <div class="bottomLine"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 排行榜 end -->
+  </div>
+
+  <!-- <script src="./shareWx.js"></script>
+  <script src="./vue.js"></script>
+  <script src="./bundle.js"></script> -->
+  <script src="./main.min.js"></script>
+  
+  <script>
+    window.shareTipsPic = {
+      android: 'http://mjs.sinaimg.cn/wap/online/dpool/client/activity/dati/images/sharePic.png',
+      ios: 'http://mjs.sinaimg.cn/wap/online/dpool/client/activity/dati/images/sharePic.png'
+    }
+    window.onload = function () {
+      window.shareInit();
+    }
+    var oriention = document.querySelector(".oriention");
+    function setOriention() {
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      if (vw / vh > 1) {
+        oriention.classList.remove('hide');
+      } else {
+        oriention.classList.add('hide');
+      }
+    }
+    setOriention();
+    //统计pv，uv
+    var sudaMapConfig = {
+      uId: '',
+      pageId: '2949'
+    };
+    suda_init(sudaMapConfig.pageId, 100);
+
+    window.addEventListener('resize', function () {
+      setOriention();
+    }, 0)
+  </script>
+</body>
+
+</html>
