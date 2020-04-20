@@ -4,21 +4,6 @@ var path = require("path");
 var ejs = require("ejs");
 const fs = require("fs");
 
-const http = require("http").Server(app);
-const io = require("socket.io")(http);
-io.set("transports", ["websocket", "xhr-polling", "jsonp-polling", "htmlfile", "flashsocket"]);
-io.set("origins", "*:*");
-
-io.on("connection", (socket) => {
-  console.log("hhello");
-  socket.on("sendMsg", (msg) => {
-    console.log("[log]===> receive msg:", msg);
-    io.emit("sendMsg", msg);
-  });
-});
-
-console.log("listen ok test test");
-
 app.get("/home", function (req, res) {
   fs.readdir(path.join(__dirname, "../web/public"), function (err, data) {
     if (err) {

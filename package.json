@@ -5,7 +5,8 @@
     "github-webhook-handler": "^0.7.1"
   },
   "scripts": {
-    "start": "nodemon ./server/index.js"
+    "start": "nodemon ./server/index.js",
+    "start-ws": "nodemon ./server/websocket.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
