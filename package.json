@@ -6,7 +6,8 @@
   },
   "scripts": {
     "start": "nodemon ./server/index.js",
-    "start-ws": "nodemon ./server/websocket.js"
+    "start-ws": "nodemon ./server/websocket.js",
+    "upload":"git add . && git commit -m 'update pages' && git push"
   },
   "dependencies": {
     "cors": "^2.8.5",
