@@ -13,7 +13,7 @@ const io = require("socket.io")(http);
 //   });
 // });
 
-let signList = ["1587376316756"];
+let signList = ["1587376316756","admin"];
 
 io.on("connection", (socket) => {
   let onlineNum = io.eio.clientsCount;
