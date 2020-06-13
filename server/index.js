@@ -10,7 +10,7 @@ app.use(compression());
 
 
 
-app.get("/home", function (req, res) {
+app.get("/", function (req, res) {
   fs.readdir(path.join(__dirname, "../web/public"), function (err, data) {
     if (err) {
       res.send("<h1>getDir error</h1>");
