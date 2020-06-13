@@ -18,7 +18,7 @@ const init = function () {
   io.on("connection", (socket) => {
     let onlineNum = io.eio.clientsCount;
 
-    io.emit("showOnlineNum", { num: onlineNum + 1000 });
+    io.emit("showOnlineNum", { num: onlineNum });
 
     signList.forEach((item) => {
       let eventName = `sendMsg_${item}`;
