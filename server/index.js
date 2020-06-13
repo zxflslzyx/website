@@ -1,14 +1,14 @@
 var express = require("express");
-var compression =require('compression');
+var compression = require("compression");
 var app = express();
 var path = require("path");
 var ejs = require("ejs");
 const fs = require("fs");
 
+const WS = require("./websocket.js");
+WS.init();
+
 app.use(compression());
-
-
-
 
 app.get("/", function (req, res) {
   fs.readdir(path.join(__dirname, "../web/public"), function (err, data) {
