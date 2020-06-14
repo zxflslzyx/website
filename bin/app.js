@@ -18,14 +18,10 @@ function run_cmd(cmd, args, callback) {
 }
 
 run_cmd("sh", ["./setup.sh"], function (text) {
-  console.log(text);
+  console.log(text + "xixi");
 });
 
 console.log("exec ./bin/app.js...");
-
-
-
-
 
 // const { spawn } = require('child_process');
 // const subprocess = spawn('错误的命令');
