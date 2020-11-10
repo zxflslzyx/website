@@ -31,7 +31,7 @@ const init = function () {
   });
 
   http.listen(3000, () => {
-    console.log("listening on *:3000");
+    console.log("websocket listening on *:3000");
   });
 };
 

@@ -8,6 +8,7 @@ const fs = require("fs");
 const WS = require("./websocket.js");
 WS.init();
 
+// gzip压缩
 app.use(compression());
 
 app.get("/", function (req, res) {
@@ -41,4 +42,6 @@ app.get("/", function (req, res) {
   });
 });
 
-app.use(express.static(path.join(__dirname, "../web/public"))).listen(80);
+
+
+app.use(express.static(path.join(__dirname, "../web/public"), { maxAge: 5000 })).listen(80);
