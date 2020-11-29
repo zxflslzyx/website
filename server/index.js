@@ -37,7 +37,7 @@ app.get("/", function (req, res) {
         data: linkArr,
       };
       // 将数据在浏览器进行展现
-      res.render(path.join(__dirname, "./views/index/index.ejs"), ejsData);
+      res.render(path.join(__dirname, "./views/index/test.ejs"), ejsData);
     }
   });
 });
